@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
 const db = require('./models');
+const auth = require('./middleware/auth')
 
 
 db.sequelize.sync();
@@ -28,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users',auth, usersRouter);
 
 // var corsMiddleware = function(req, res, next) {
 //   res.header('Access-Control-Allow-Origin', '*'); //replace localhost with actual host

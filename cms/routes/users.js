@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const auth = require('../middleware/auth')
 
 
 const {FindAllAssemblies,CreateAssembly,UpdateAssembly,FindOneAssembly,DeleteAssembly} = require("../controllers/configurations/assembly");

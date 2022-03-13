@@ -1,7 +1,6 @@
 Admin Add another Admin
-Crud for ministries
-crud for commitee
 admin adding users
 tracking activities on the application
-middle ware 
 update commitee table to have commitee head
+login to generate jwt token
+complete user model
