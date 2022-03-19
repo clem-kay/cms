@@ -1,6 +1,8 @@
 const UserAccount = require('../../models').UserAccount
 const User = require('../../models').User
 const validator = require('validator');
+const jwt = require("jsonwebtoken")
+const config = require("dotenv").config();
 
 const crypto = require('crypto');
 let secret = "salemAssembly"
@@ -14,24 +16,27 @@ module.exports.Login = async (req, res, next) => {
         res.send({message:'failed', error:loginErrorMessage } )
     }
 
-    let user = await User.findOne({
+    let user = await UserAccount.findOne({
         where :{
             email: req.body.email
-        },
-        include:[UserAccount]
+        }
     })
+
+    let email = user.email
 
     if (user) {
 
-        if (UserAccount.password == hashPassword(req.body.password)){
+        if (user.password == hashPassword(req.body.password)){
             // Create token
                 const token = jwt.sign(
-                    { user_id: user._id, email },
-                    process.env.TOKEN_KEY,
+                    { userId: user.userId,
+                        email:user.email },
+                    process.env.JWT_KEY,
                     {
                     expiresIn: "2h",
                     }
                 );
+                user.password = "XXXXXXXXXXXXXXXXX"
             res.send({message:'sucess',user:user,token:token} )
         }else {
             loginErrorMessage = 'Incorrect username or password';
