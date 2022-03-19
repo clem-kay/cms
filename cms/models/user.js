@@ -11,9 +11,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasOne(models.UserAccount,{
+        foreignKey: 'UserId',
+        onDelete: 'CASCADE'
+      });
+      
     }
   }
   User.init({
+    id: {
+      allowNull: false,
+      primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
+    },
     firstName: DataTypes.STRING,
     middleName: DataTypes.STRING,
     lastName: DataTypes.STRING,
@@ -22,9 +33,6 @@ module.exports = (sequelize, DataTypes) => {
     maritalStatus:DataTypes.STRING,
     phoneNumber:DataTypes.INTEGER,
     whatsapp:DataTypes.INTEGER,
-    
-
-
   }, {
     sequelize,
     modelName: 'User',

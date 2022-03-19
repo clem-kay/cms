@@ -19,3 +19,10 @@
 
  module.exports = verifyToken;
  
+
+ //hash password
+module.export = hashPassword = (password) =>{
+    return crypto.createHmac('sha256', secret)
+        .update(password)
+        .digest('hex');
+}

@@ -51,7 +51,7 @@ module.exports.UpdateAssembly = async (req, res, next) => {
         
     
     }else{
-        res.send({message:'failed', error:'Update not successful'})
+        res.send({message:'failed', data:'', error:'Update not successful'})
     }
 }
 

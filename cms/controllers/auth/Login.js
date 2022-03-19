@@ -1,4 +1,5 @@
 const UserAccount = require('../../models').UserAccount
+const User = require('../../models').User
 const validator = require('validator');
 
 const crypto = require('crypto');
@@ -13,16 +14,25 @@ module.exports.Login = async (req, res, next) => {
         res.send({message:'failed', error:loginErrorMessage } )
     }
 
-    let user = await UserAccount.findOne({
-        where : {
-            email:req.body.email
-        }
-    });
+    let user = await User.findOne({
+        where :{
+            email: req.body.email
+        },
+        include:[UserAccount]
+    })
 
     if (user) {
 
-        if (user.password == hashPassword(req.body.password)){
-            res.send({message:'sucess',user:user} )
+        if (UserAccount.password == hashPassword(req.body.password)){
+            // Create token
+                const token = jwt.sign(
+                    { user_id: user._id, email },
+                    process.env.TOKEN_KEY,
+                    {
+                    expiresIn: "2h",
+                    }
+                );
+            res.send({message:'sucess',user:user,token:token} )
         }else {
             loginErrorMessage = 'Incorrect username or password';
             res.send({message:'failed', error:loginErrorMessage } )

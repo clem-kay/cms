@@ -11,12 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      UserAccount.belongsTo(models.User,{
+        foreignKey: 'UserId',
+        onDelete: 'CASCADE'
+      });
+
+      UserAccount.belongsTo(models.Role, {
+        foreignKey: 'RoleId',
+        onDelete: 'SET NULL'
+      });
     }
   }
   UserAccount.init({
     email: DataTypes.STRING,
     username: DataTypes.STRING,
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    blocked:DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'UserAccount',

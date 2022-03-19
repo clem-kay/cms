@@ -8,14 +8,33 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      UserId:{
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        references:{
+          model: 'Users',
+          key:'id'
+        }
+      },
       email: {
         type: Sequelize.STRING
       },
       username: {
         type: Sequelize.STRING
       },
+      RoleId:{
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references:{
+          model: 'Roles',
+          key:'id'
+        }
+      },
       password: {
         type: Sequelize.STRING
+      },
+      blocked:{
+        type:Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
